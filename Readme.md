@@ -32,9 +32,9 @@ Behaviors should read all the configuration they need (e.g. API credentials) fro
 
 #### Working
 
-* `ping` - `pong`
-* `dict <word>` - prints out the translation from google translate
-* `anaveda` - prints out today's lunch menu from anaveda.de
+* `yo ping` - `pong`
+* `yo translate <word>` - prints out the translation from google translate
+* `yo anaveda` - prints out today's lunch menu from anaveda.de
   
 #### Planned
 
