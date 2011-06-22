@@ -21,6 +21,21 @@ describe Yobot::Behaviors::Dict do
     Yobot::Behaviors::Dict.new.react(stub, 'translate car to de')
   end
   
+  it "reports a translation error" do
+    room = stub
+    request = stub(:request)
+    http = stub(:http)
+    EventMachine::HttpRequest.stub(:new) {request}
+    request.stub(:get) {http}
+    http.stub(:callback).and_yield
+    http.stub(:response) {
+      {"responseData" => nil, "responseDetails" => "invalid translation language pair", "responseStatus" => 400}.to_json
+    }
+    
+    room.should_receive(:text).with("couldn't translate: invalid translation language pair")
+
+    Yobot::Behaviors::Dict.new.react(room, 'translate car to xx')
+  end
   
   it "prints the translations to the room" do
     room = stub
@@ -30,7 +45,7 @@ describe Yobot::Behaviors::Dict do
     request.stub(:get) {http}
     http.stub(:callback).and_yield
     http.stub(:response) {
-      {"responseData" => {"translatedText" => "auto"}}.to_json
+      {"responseData" => {"translatedText" => "auto"}, "responseStatus" => 200}.to_json
     }
     
     room.should_receive(:text).with('car in en: auto')
