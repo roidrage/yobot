@@ -11,6 +11,6 @@ require "bundler/setup"
 require 'firering'
 require 'json'
 require 'yobot/bot'
-require 'yobot/behaviors/ping_pong'
-require 'yobot/behaviors/dict'
-require 'yobot/behaviors/anaveda'
+Dir[File.dirname(__FILE__) + '/yobot/behaviors/*.rb'].each do |behavior|
+  require behavior
+end
